@@ -1,0 +1,2089 @@
+:root {
+  /* ════════════════════════════════════════════════════════════
+     TYPE SCALE — Major Third (1.250), base 16px / 1rem
+     One consistent system for every heading + body + caption size
+     in the app, so nothing is ever randomly oversized again.
+     ════════════════════════════════════════════════════════════ */
+  --fs-caption: 0.8rem;     /* 12.8px — fine print, timestamps, badges */
+  --fs-small:   0.9rem;     /* 14.4px — secondary text, helper copy   */
+  --fs-body:    1rem;       /* 16px   — base paragraph text          */
+  --fs-h6:      1.125rem;   /* 18px   — smallest heading / card title*/
+  --fs-h5:      1.25rem;    /* 20px                                  */
+  --fs-h4:      1.5rem;     /* 24px                                  */
+  --fs-h3:      1.875rem;   /* 30px                                  */
+  --fs-h2:      2.25rem;    /* 36px                                  */
+  --fs-h1:      2.75rem;    /* 44px   — hero-level only, used sparingly */
+
+  /* Line-height: tight for headings, relaxed for reading copy */
+  --lh-heading: 1.15;
+  --lh-subhead: 1.25;
+  --lh-body:    1.6;
+  --lh-small:   1.5;
+
+  /* ════════════════════════════════════════════════════════════
+     SPACING RHYTHM — consistent vertical rhythm between sections,
+     headings, and paragraphs. One scale, used everywhere, so gaps
+     never feel arbitrary.
+     ════════════════════════════════════════════════════════════ */
+  --spacing-xs:  0.5rem;    /* 8px  — tight, inline gaps          */
+  --spacing-sm:  1rem;      /* 16px — paragraph-to-paragraph       */
+  --spacing-md:  1.5rem;    /* 24px — heading-to-body, card padding*/
+  --spacing-lg:  2.5rem;    /* 40px — between distinct sections    */
+  --spacing-xl:  4rem;      /* 64px — major page-section breaks    */
+
+  /* ─── TMS-inspired palette (C-DAC institutional look) ─── */
+  --li-blue: #123160;     /* primary navy-blue (buttons, links, accents) */
+  --li-dark: #0A2347;     /* deep navy (gradients, hero, sidebar) — matches TMS */
+  --li-bg:   #EEF3F8;     /* soft blue tint for panels */
+  --hero-1:  #0A2347;     /* deep TMS navy (hero start) */
+  --hero-2:  #123160;     /* rich navy (hero end) */
+  /* NOTE: renamed from --accent/--accent-dark/--accent-soft to avoid colliding
+     with the enterprise --accent token (the primary-action blue) defined below.
+     This orange stays a distinct, secondary highlight color (Sign Up, Get
+     Started CTAs) — it never competes with --accent again. */
+  --cta-orange:       #E2670A;   /* TMS orange (secondary CTAs / highlights) */
+  --cta-orange-hover: #C7560A;   /* orange hover */
+  --cta-orange-soft:  #FFF1E6;   /* orange tint background */
+}
+
+/* ════════════════════════════════════════════════
+   TMS-STYLE NAVBAR — white bar, navy serif brand,
+   thin accent strip on top; flips dark in dark mode.
+   ════════════════════════════════════════════════ */
+.app-navbar {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e6eaf0;
+  position: relative;
+}
+.app-navbar::before {           /* thin TMS-style accent strip */
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--cta-orange) 0%, var(--li-blue) 55%, var(--li-dark) 100%);
+}
+.app-navbar .navbar-brand {
+  color: var(--li-dark) !important;
+  font-family: 'PT Serif','Lora','Georgia',serif;
+}
+.app-navbar .app-nav-link,
+.app-navbar .nav-link {
+  color: #334155 !important;
+  font-weight: 500;
+}
+.app-navbar .app-nav-link:hover,
+.app-navbar .nav-link:hover { color: var(--li-blue) !important; }
+.app-navbar .navbar-toggler { border-color: #cbd5e1 !important; }
+/* dark mode → dark bar, light text */
+body.dark-mode .app-navbar { background: var(--bg-card) !important; border-bottom: 1px solid #2d333b; }
+body.dark-mode .app-navbar .navbar-brand { color: var(--text-primary) !important; }
+body.dark-mode .app-navbar .app-nav-link,
+body.dark-mode .app-navbar .nav-link { color: #c9d3df !important; }
+body.dark-mode .app-navbar .app-nav-link:hover,
+body.dark-mode .app-navbar .nav-link:hover { color: #7FB0E6 !important; }
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: var(--fs-body);      /* 1rem / 16px — accessible base */
+  line-height: var(--lh-body);
+  font-feature-settings: 'tnum' 1, 'cv11' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+/* keep the ambient canvas subtle so foreground text stays crisp & premium */
+canvas { opacity: 0.55; }
+
+/* ════════════════════════════════════════════════════════════
+   TYPE SCALE applied — every heading level gets one fixed,
+   predictable size from the modular scale. No more random
+   2.6rem / 3rem one-off inline overrides scattered across pages.
+   ════════════════════════════════════════════════════════════ */
+h1 { font-size: var(--fs-h1); line-height: var(--lh-heading); font-weight: 700; }
+h2 { font-size: var(--fs-h2); line-height: var(--lh-heading); font-weight: 700; }
+h3 { font-size: var(--fs-h3); line-height: var(--lh-subhead); font-weight: 700; }
+h4 { font-size: var(--fs-h4); line-height: var(--lh-subhead); font-weight: 700; }
+h5 { font-size: var(--fs-h5); line-height: var(--lh-subhead); font-weight: 600; }
+h6 { font-size: var(--fs-h6); line-height: var(--lh-subhead); font-weight: 600; }
+p  { font-size: var(--fs-body); line-height: var(--lh-body); }
+small, .small, .text-muted, .form-text {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+.caption, figcaption, .text-caption {
+  font-size: var(--fs-caption);
+  line-height: var(--lh-small);
+}
+/* Spacing rhythm is OPT-IN only (via these utility classes) — it never
+   applies automatically to bare h1–h6/p, so it can't silently shift any
+   existing card, badge, or header layout that wasn't designed for it. */
+.rhythm-h1, .rhythm-h2 { margin-bottom: var(--spacing-md) !important; }
+.rhythm-h3, .rhythm-h4, .rhythm-h5 { margin-bottom: var(--spacing-sm) !important; }
+.rhythm-h6 { margin-bottom: var(--spacing-xs) !important; }
+.rhythm-p  { margin-bottom: var(--spacing-sm) !important; }
+.section-spacing { margin-bottom: var(--spacing-xl); }
+.section-spacing-sm { margin-bottom: var(--spacing-lg); }
+/* tighten headings further on mobile so they never overpower the viewport */
+@media (max-width: 576px) {
+  h1 { font-size: calc(var(--fs-h1) * 0.72); }
+  h2 { font-size: calc(var(--fs-h2) * 0.78); }
+  h3 { font-size: calc(var(--fs-h3) * 0.85); }
+  h4 { font-size: calc(var(--fs-h4) * 0.9); }
+}
+
+/* Big formal titles get the institutional serif (matches TMS). Sub-UI headings
+   (h4–h6, used for card titles / dense dashboard UI) stay in Inter for clarity. */
+/* Big formal titles get the institutional serif (matches TMS). Sub-UI headings
+   (h4–h6, used for card titles / dense dashboard UI) stay in Inter for clarity.
+   NOTE: headings intentionally INHERIT their color (dark text on white cards,
+   white text on navy panels/hero) so nothing ever goes invisible. */
+h1, h2,
+.heading-serif {
+  font-family: 'PT Serif', 'Lora', 'Georgia', serif;
+  letter-spacing: 0;
+}
+h3, h4, h5, h6,
+.navbar-brand,
+.stat-card .number {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  letter-spacing: -0.01em;
+}
+.navbar-brand { font-family: 'PT Serif', 'Lora', 'Georgia', serif; }
+/* Safety: any heading inside a white-text block stays white */
+.text-white h1, .text-white h2, .text-white h3, .text-white .heading-serif,
+.welcome-header h1, .welcome-header h2, .welcome-header h3,
+.page-header h1, .page-header h2, .page-header h3 { color: #fff !important; }
+
+/* ─── ORANGE ACCENT BUTTONS (TMS-style secondary CTA) ─── */
+.btn-accent {
+  background: var(--cta-orange);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.btn-accent:hover  { background: var(--cta-orange-hover); color: #fff; box-shadow: 0 6px 20px rgba(226,103,10,0.32) !important; }
+.btn-accent:active { background: var(--cta-orange-hover); color: #fff; }
+.btn-outline-accent {
+  background: transparent;
+  color: var(--cta-orange);
+  border: 1.5px solid var(--cta-orange);
+  font-weight: 700;
+}
+.btn-outline-accent:hover { background: var(--cta-orange); color: #fff; }
+.text-accent { color: var(--cta-orange) !important; }
+body.dark-mode .btn-outline-accent { color: #ff8b3d; border-color: #ff8b3d; }
+body.dark-mode .btn-outline-accent:hover { background: #ff8b3d; color: var(--bg-card); }
+body.dark-mode .text-accent { color: #ff8b3d !important; }
+
+/* ─── SKILL BADGES ─── */
+.skill-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin: 2px;
+}
+.skill-badge.verified {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+.skill-badge.unverified {
+  background-color: #E6EDF5;
+  color: #123160;
+  border: 1px solid #B6C6DA;
+}
+
+/* ─── JOB CARD ─── */
+.job-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: box-shadow 0.2s, transform 0.2s;
+  background: #fff;
+}
+.job-card:hover {
+  box-shadow: 0 4px 20px rgba(18,49,96,0.12);
+  transform: translateY(-2px);
+  border-color: #123160;
+}
+
+/* ─── PAGE HEADER (LinkedIn blue) ─── */
+.page-header {
+  background: linear-gradient(135deg, #123160 0%, #0A2347 100%);
+  color: white;
+  padding: 1.5rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+.page-header h1, .page-header h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+.page-header p  { font-size: 0.83rem; opacity: 0.85; margin: 0; }
+
+/* ─── WELCOME HEADER ─── */
+.welcome-header {
+  background: linear-gradient(135deg, #123160 0%, #0A2347 100%);
+  color: white;
+  padding: 1.5rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+.welcome-header h1, .welcome-header h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+.welcome-header p  { font-size: 0.83rem; opacity: 0.85; margin: 0; }
+
+/* ─── STAT CARDS ─── */
+.stat-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.15s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-card .number { font-size: 1.8rem; font-weight: 700; color: #123160; }
+.stat-card .label  { color: #6c757d; font-size: 0.78rem; margin-top: 2px; }
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  min-height: calc(100vh - 56px);
+  background: #fff;
+  border-right: 1px solid #e2e8f0;
+  padding: 1rem 0.75rem;
+  width: 200px;
+  flex-shrink: 0;
+}
+.sidebar .nav-link {
+  color: #4a5568;
+  border-radius: 8px;
+  padding: 9px 12px;
+  margin-bottom: 3px;
+  font-weight: 500;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.12s;
+}
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background-color: #EEF3F8;
+  color: #123160;
+}
+.sidebar .nav-link i {
+  width: 18px;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* ─── NAVBAR ─── */
+.navbar-brand img { object-fit: contain; flex-shrink: 0; }
+
+/* ─── MAIN CONTENT ─── */
+.main-content {
+  padding: 1.25rem;
+  overflow: auto;
+}
+
+/* ─── ICON FIX ─── */
+.bi { display: inline-block; line-height: 1; vertical-align: -0.125em; }
+
+/* ─── MOBILE BOTTOM NAV ─── */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #fff;
+  border-top: 1px solid #e2e8f0;
+  z-index: 1000;
+  padding: 6px 0 4px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+}
+.mobile-bottom-nav a {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.62rem;
+  color: #6c757d;
+  text-decoration: none;
+  padding: 4px 2px;
+  gap: 2px;
+}
+.mobile-bottom-nav a.active,
+.mobile-bottom-nav a:hover { color: #123160; }
+.mobile-bottom-nav a i { font-size: 1.1rem; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 991px) {
+  .sidebar { width: 160px; }
+  .sidebar .nav-link { font-size: 0.82rem; padding: 8px 10px; }
+  .stat-card .number { font-size: 1.4rem; }
+}
+
+@media (max-width: 767px) {
+  .sidebar { display: none !important; }
+  .main-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    padding: 12px !important;
+  }
+  .mobile-bottom-nav { display: flex !important; }
+  body { padding-bottom: 65px; }
+
+  /* Page headers */
+  .page-header, .welcome-header {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  .page-header h1, .page-header h2, .welcome-header h1, .welcome-header h2 { font-size: 1rem; }
+  .page-header p, .welcome-header p { font-size: 0.78rem; }
+
+  /* Stat cards */
+  .stat-card { padding: 0.7rem; }
+  .stat-card .number { font-size: 1.2rem; }
+
+  /* Job cards */
+  .job-card { padding: 12px; }
+
+  /* Navbar fixes on mobile */
+  .navbar-brand { font-size: 1rem !important; }
+  .navbar .btn-sm { font-size: 0.75rem !important; padding: 5px 10px !important; }
+
+  /* Container padding */
+  .container, .container-fluid { padding-left: 12px !important; padding-right: 12px !important; }
+
+  /* Cards on mobile */
+  .card { border-radius: 10px !important; }
+  .card-body { padding: 12px !important; }
+  .rounded-4 { border-radius: 10px !important; }
+
+  /* Buttons on mobile */
+  .btn { font-size: 0.82rem !important; }
+  .btn-lg { font-size: 0.9rem !important; padding: 8px 18px !important; }
+
+  /* Hide desktop-only elements */
+  .d-md-none-mobile { display: none !important; }
+
+  /* Form controls */
+  .form-control, .form-select { font-size: 14px !important; }
+
+  /* Tables on mobile */
+  .table-responsive { font-size: 12px; }
+
+  /* Hero sections — sizing now handled by the type-scale mobile rule above */
+
+  /* Row gutters */
+  .row.g-4 { --bs-gutter-x: 0.75rem; --bs-gutter-y: 0.75rem; }
+  .row.g-3 { --bs-gutter-x: 0.5rem; --bs-gutter-y: 0.5rem; }
+
+  /* Badge font size */
+  .badge { font-size: 0.68rem !important; }
+
+  /* Input groups */
+  .input-group-text { font-size: 13px; }
+
+  /* Manage applications page */
+  .d-flex.gap-3 { gap: 0.5rem !important; }
+
+  /* Career room on mobile */
+  .sb-match-ring { width: 160px !important; height: 160px !important; }
+}
+
+@media (max-width: 480px) {
+  /* Very small screens */
+  .navbar-brand span { display: none; }
+  .card-body { padding: 10px !important; }
+  h4.fw-bold { font-size: 0.95rem !important; }
+  .stat-card .number { font-size: 1rem !important; }
+  .btn { padding: 0.6rem 1.1rem !important; } /* still compact, but a real tap target */
+}
+
+/* ─── UTILITIES ─── */
+.text-li-blue { color: #123160 !important; }
+.bg-li-blue   { background-color: #123160 !important; }
+
+/* ─── PROGRESS BAR ─── */
+.progress { height: 8px; border-radius: 4px; }
+.progress-bar { border-radius: 4px; }
+
+/* ─── FORM CONTROLS ─── */
+.form-control:focus, .form-select:focus {
+  border-color: #123160;
+  box-shadow: 0 0 0 2px rgba(18,49,96,0.1);
+}
+
+/* ════════════════════════════════════════════════════════════
+   ENTERPRISE DESIGN TOKENS — single source of truth for theme.
+   Light values live on :root; dark values override under
+   body.dark-mode. Every shared component below consumes these
+   variables instead of hardcoded hex, so toggling the theme
+   class is the only thing required to re-skin the whole app.
+   ════════════════════════════════════════════════════════════ */
+:root {
+  /* surfaces */
+  --bg-page:        #F3F4F6;
+  --bg-card:        #FFFFFF;
+  --bg-card-hover:  #FAFBFC;
+  /* text */
+  --text-primary:   #111827;
+  --text-secondary: #5B6471;
+  --text-muted:     #828B98;
+  /* brand / actions */
+  --accent:         #123160;
+  --accent-hover:   #0F3460;
+  --accent-soft:    #E6EDF5;
+  /* structure */
+  --border-color:   #E5E7EB;
+  --radius-card:    12px;
+  --shadow-card:    0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card-lg: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --focus-ring:     rgba(18,49,96,0.40);
+  /* status pills — soft bg + dark text, identical in both modes for readability */
+  --pill-green-bg:  #DCFCE7; --pill-green-text:  #166534;
+  --pill-yellow-bg: #FEF3C7; --pill-yellow-text: #92400E;
+  --pill-red-bg:    #FEE2E2; --pill-red-text:    #991B1B;
+  --pill-blue-bg:   #E6EDF5; --pill-blue-text:   #123160;
+  --pill-gray-bg:   #F3F4F6; --pill-gray-text:   #374151;
+}
+
+body.dark-mode {
+  --bg-page:        #030712;
+  --bg-card:        #1F2937;
+  --bg-card-hover:  #25304066;
+  --text-primary:   #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --text-muted:     #6B7280;
+  --accent:         #5b9bd5;
+  --accent-hover:   #7aafdf;
+  --accent-soft:    #15243a;
+  --border-color:   #374151;
+  --shadow-card:    0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-card-lg: 0 4px 16px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.4);
+  --focus-ring:     rgba(91,155,213,0.45);
+  /* pill colors intentionally NOT overridden — same soft bg/dark text in dark mode too */
+}
+
+/* Smooth, deliberate theme transition across the whole app */
+html { color-scheme: light; }
+html:has(body.dark-mode) { color-scheme: dark; }
+body, .card, .stat-card, .app-navbar, .sidebar, .form-control, .form-select,
+.btn, .status-pill, .dropdown-menu, .welcome-header, .page-header {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out,
+              border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* ─── ENTERPRISE CARD SYSTEM — every card shares radius + shadow ─── */
+.card, .stat-card {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-card);
+}
+.card:hover { box-shadow: var(--shadow-card-lg); }
+
+/* ─── STATUS PILLS — project/application stage indicators ─── */
+.status-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 12px; border-radius: 20px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.status-pill-green  { background: var(--pill-green-bg);  color: var(--pill-green-text); }
+.status-pill-yellow { background: var(--pill-yellow-bg); color: var(--pill-yellow-text); }
+.status-pill-red    { background: var(--pill-red-bg);    color: var(--pill-red-text); }
+.status-pill-blue   { background: var(--pill-blue-bg);   color: var(--pill-blue-text); }
+.status-pill-gray   { background: var(--pill-gray-bg);   color: var(--pill-gray-text); }
+
+/* ─── ACCESSIBLE FOCUS STATES — visible on every interactive element ─── */
+.btn:focus-visible,
+.form-control:focus-visible,
+.form-select:focus-visible,
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring) !important;
+  border-color: var(--accent) !important;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--focus-ring) !important;
+}
+
+/* ─── PRIMARY ACTION COLOR — drives every .btn-primary in the app ─── */
+.btn-primary {
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+}
+
+/* ─── ROLE-SELECT CARDS (Register page) — token-driven so it reliably
+   adapts in dark mode instead of relying on attribute-matching inline
+   styles, which don't catch every React-serialized style string. ─── */
+.role-card {
+  cursor: pointer;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-card);
+  transition: all 0.15s ease;
+}
+.role-card .role-card-icon { font-size: 28px; color: var(--text-muted); }
+.role-card .role-card-label { color: var(--text-secondary); }
+.role-card-active {
+  border: 2px solid var(--accent) !important;
+  background: var(--accent-soft) !important;
+}
+.role-card-active .role-card-icon,
+.role-card-active .role-card-label { color: var(--accent) !important; }
+
+body.dark-mode {
+  background-color: var(--bg-page) !important;
+  color: var(--text-primary) !important;
+  --notif-bg: #161b22;
+  --notif-border: var(--border-color);
+  --notif-text: #e6edf3;
+  --notif-muted: #8b949e;
+  --notif-unread: #1c2128;
+  --notif-hover: #21262d;
+}
+body.dark-mode .card,
+body.dark-mode .job-card,
+body.dark-mode .sidebar,
+body.dark-mode .stat-card,
+body.dark-mode .card-body,
+body.dark-mode .card-header,
+body.dark-mode .dropdown-menu {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .navbar {
+  background: var(--bg-card) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3,
+body.dark-mode h4, body.dark-mode h5, body.dark-mode h6 {
+  color: var(--text-primary) !important;
+}
+body.dark-mode p { color: #c9d1d9 !important; }
+body.dark-mode label { color: #c9d1d9 !important; }
+body.dark-mode .text-muted { color: #8b949e !important; }
+body.dark-mode .text-dark { color: var(--text-primary) !important; }
+body.dark-mode small { color: #8b949e !important; }
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .input-group-text {
+  background-color: #21262d !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .form-control::placeholder,
+body.dark-mode textarea::placeholder { color: #6e7681 !important; }
+body.dark-mode select option {
+  background: #21262d !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+  background-color: #21262d !important;
+  border-color: var(--accent) !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .bg-light,
+body.dark-mode .bg-white { background-color: #21262d !important; }
+body.dark-mode .table { color: var(--text-primary) !important; }
+body.dark-mode td, body.dark-mode th {
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+body.dark-mode .table-light,
+body.dark-mode .table-hover tbody tr:hover {
+  background-color: #1c2128 !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .badge.bg-light {
+  background-color: #21262d !important;
+  color: #c9d1d9 !important;
+}
+body.dark-mode .border,
+body.dark-mode .border-top,
+body.dark-mode .border-bottom { border-color: var(--border-color) !important; }
+body.dark-mode .dropdown-item { color: var(--text-primary) !important; }
+body.dark-mode .dropdown-item:hover { background-color: #21262d !important; }
+body.dark-mode .dropdown-divider { border-color: var(--border-color) !important; }
+body.dark-mode .dropdown-item-text { color: #8b949e !important; }
+body.dark-mode .nav-link { color: #8b949e !important; }
+body.dark-mode .nav-link:hover,
+body.dark-mode .nav-link.active {
+  background-color: #1c2128 !important;
+  color: var(--accent) !important;
+}
+body.dark-mode .welcome-header,
+body.dark-mode .page-header {
+  background: linear-gradient(135deg, #1c2128 0%, var(--bg-page) 100%) !important;
+  border: 1px solid var(--border-color) !important;
+}
+body.dark-mode .skill-badge.verified {
+  background-color: #0a2e1a !important;
+  color: #3fb950 !important;
+  border-color: #196c38 !important;
+}
+body.dark-mode .skill-badge.unverified {
+  background-color: #15243A !important;
+  color: #7FB0E6 !important;
+  border-color: #123160 !important;
+}
+body.dark-mode .alert-success {
+  background-color: #0a2e1a !important;
+  border-color: #196c38 !important;
+  color: #3fb950 !important;
+}
+body.dark-mode .alert-danger {
+  background-color: #2e0a0a !important;
+  border-color: #6c1919 !important;
+  color: #f85149 !important;
+}
+body.dark-mode .alert-warning {
+  background-color: #2e1a0a !important;
+  border-color: #6c3a19 !important;
+  color: #d29922 !important;
+}
+body.dark-mode .alert-info {
+  background-color: #0a1e2e !important;
+  border-color: #123160 !important;
+  color: var(--accent) !important;
+}
+body.dark-mode .btn-outline-secondary {
+  color: #8b949e !important;
+  border-color: var(--border-color) !important;
+}
+body.dark-mode .btn-outline-secondary:hover {
+  background-color: #21262d !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .spinner-border { color: var(--accent) !important; }
+body.dark-mode .progress { background-color: #21262d !important; }
+body.dark-mode .mobile-bottom-nav {
+  background: var(--bg-card) !important;
+  border-top-color: var(--border-color) !important;
+}
+body.dark-mode .mobile-bottom-nav a { color: #8b949e !important; }
+body.dark-mode .mobile-bottom-nav a.active { color: var(--accent) !important; }
+body.dark-mode hr { border-color: var(--border-color) !important; }
+body { transition: background-color 0.3s ease, color 0.3s ease; }
+body.dark-mode { --meta-bg: #1c2128; }
+
+/* ─── ANIMATION SYSTEM ─── */
+
+/* Back to top fade in */
+@keyframes sbFadeInUp {
+  from { opacity:0; transform:translateY(12px) scale(0.85); }
+  to   { opacity:1; transform:translateY(0)    scale(1);    }
+}
+
+/* NEW badge pulse */
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.75; transform:scale(1.1); }
+}
+
+/* ─── NAVBAR: sticky on every page ─── */
+.navbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1030 !important;
+  backdrop-filter: blur(12px) !important;
+  background: linear-gradient(135deg, rgba(18,49,96,0.97), rgba(10,35,71,0.97)) !important;
+}
+
+/* ─── ENSURE CONTENT SITS ABOVE CANVAS ─── */
+.sb-page-shell,
+.container, .container-fluid,
+.card, .job-card, .page-header,
+.welcome-header, .sidebar,
+.navbar, .mobile-bottom-nav,
+.modal, .dropdown-menu {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── SOLID, CRISP SURFACES (premium: no haze from the canvas behind) ─── */
+body:not(.dark-mode) .card,
+body:not(.dark-mode) .stat-card,
+body:not(.dark-mode) .sidebar {
+  background: #ffffff !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 1px solid #e7ecf2 !important;
+}
+body.dark-mode .card,
+body.dark-mode .job-card,
+body.dark-mode .stat-card,
+body.dark-mode .sidebar {
+  background: #1F2937 !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 1px solid #2d333b !important;
+}
+
+/* ─── BUTTON HOVER + PROFESSIONAL CTA PADDING ───
+   Generous internal padding (12px/24px minimum) for normal text CTAs.
+   Excludes .rounded-circle icon buttons — those use a fixed inline
+   width/height and would be squeezed/distorted by added padding. */
+.btn:not(.rounded-circle) {
+  padding: 0.75rem 1.5rem; /* 12px vertical / 24px horizontal */
+}
+.btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.15s ease !important;
+}
+.btn:hover  { transform: translateY(-2px) !important; }
+.btn:active { transform: translateY(0) !important;    }
+.btn-primary:hover  { box-shadow: 0 6px 20px rgba(18,49,96,0.35) !important; filter: brightness(1.06) !important; }
+.btn-success:hover  { box-shadow: 0 6px 20px rgba(5,118,66,0.35) !important;   filter: brightness(1.06) !important; }
+.btn-danger:hover   { box-shadow: 0 6px 20px rgba(220,53,69,0.3) !important; }
+.btn-warning:hover  { box-shadow: 0 6px 20px rgba(217,119,6,0.3) !important; }
+
+/* ─── CARD TOP BORDER SLIDE ─── */
+.card { position:relative; overflow:hidden; }
+.card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, #123160, #14B8A6);
+  transform: scaleX(0); transform-origin:left;
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+.card:hover::before { transform: scaleX(1); }
+.card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 14px 36px rgba(18,49,96,0.13) !important;
+}
+/* Keep text crisp during the hover lift: render on a stable GPU layer with
+   backface-visibility hidden, which prevents the sub-pixel blur that a bare
+   transform:translateY causes on hover. */
+.card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+/* ── GLOBAL ANTI-BLUR ──
+   Any element that lifts or scales on hover gets promoted to a GPU layer, and
+   text on that layer can render blurry. Applying backface-visibility:hidden and
+   crisp font-smoothing to every hover-animated surface keeps text sharp app-wide. */
+.card, .job-card, .stat-card, .btn,
+.card:hover, .job-card:hover, .stat-card:hover, .btn:hover {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── JOB CARD ─── */
+.job-card { transition: all 0.25s cubic-bezier(0.4,0,0.2,1) !important; }
+.job-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 16px 40px rgba(18,49,96,0.15) !important;
+  border-color: #123160 !important;
+}
+
+/* ─── STAT CARD ─── */
+.stat-card { transition: all 0.2s ease !important; cursor:pointer; }
+.stat-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 10px 28px rgba(18,49,96,0.13) !important;
+}
+
+/* ─── SIDEBAR SLIDE ─── */
+.sidebar .nav-link {
+  border-left: 2px solid transparent !important;
+  transition: all 0.18s ease !important;
+}
+.sidebar .nav-link:hover {
+  padding-left: 18px !important;
+  border-left-color: #123160 !important;
+  color: #123160 !important;
+  background: #EEF3F8 !important;
+}
+.sidebar .nav-link.active {
+  padding-left: 18px !important;
+  border-left-color: #123160 !important;
+}
+body.dark-mode .sidebar .nav-link:hover,
+body.dark-mode .sidebar .nav-link.active {
+  background: #1c2128 !important;
+  color: var(--accent) !important;
+  border-left-color: var(--accent) !important;
+}
+
+/* ─── SKILL BADGE ─── */
+.skill-badge {
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+.skill-badge:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 10px rgba(18,49,96,0.2) !important;
+}
+
+/* ─── FORM FOCUS ─── */
+.form-control:focus, .form-select:focus {
+  border-color: #123160 !important;
+  box-shadow: 0 0 0 3px rgba(18,49,96,0.12) !important;
+}
+
+/* ─── MOBILE: reduce canvas intensity ─── */
+@media (max-width: 767px) {
+  canvas { opacity: 0.5 !important; }
+}
+
+/* ─── REDUCED MOTION ─── */
+@media (prefers-reduced-motion: reduce) {
+  canvas { display: none !important; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ─── SKELETON LOADING ─── */
+.skeleton-box {
+  background: linear-gradient(90deg, var(--bs-secondary-bg) 25%, var(--bs-tertiary-bg) 50%, var(--bs-secondary-bg) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shine 1.5s infinite;
+  border-radius: 6px;
+}
+@keyframes skeleton-shine {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── BUTTON LOADING STATE ─── */
+.btn:disabled {
+  opacity: 0.75 !important;
+  cursor: wait !important;
+}
+
+/* ─── FASTER PAGE TRANSITIONS ─── */
+.main-content {
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ════════════════════════════════════════════════
+   COMPLETE DARK MODE — ALL PAGES ALL ELEMENTS
+   ════════════════════════════════════════════════ */
+
+/* ── Base body ── */
+body.dark-mode {
+  background: var(--bg-page) !important;
+  color: var(--text-primary) !important;
+
+  /* Notification bell CSS vars */
+  --notif-bg: #161b22;
+  --notif-border: #2d333b;
+  --notif-text: #e6edf3;
+  --notif-muted: #768390;
+  --notif-unread: #1c2d3e;
+  --notif-hover: #1c2128;
+
+  /* Bootstrap overrides */
+  --bs-body-bg: var(--bg-page);
+  --bs-body-color: var(--text-primary);
+  --bs-secondary-bg: var(--bg-card);
+  --bs-tertiary-bg: #1c2128;
+  --bs-border-color: #2d333b;
+}
+
+/* ── ALL CARDS ── */
+body.dark-mode .card,
+body.dark-mode .stat-card,
+body.dark-mode .job-card {
+  background: var(--bg-card) !important;
+  border-color: #2d333b !important;
+  color: var(--text-primary) !important;
+  backdrop-filter: none !important;
+}
+body.dark-mode .card::before {
+  background: linear-gradient(90deg, var(--accent), #14B8A6) !important;
+}
+
+/* ── ALL TEXT ── */
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3,
+body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
+body.dark-mode .fw-bold, body.dark-mode .fw-semibold,
+body.dark-mode .fw-medium {
+  color: var(--text-primary) !important;
+}
+body.dark-mode .text-muted,
+body.dark-mode .text-secondary {
+  color: #768390 !important;
+}
+body.dark-mode .text-dark {
+  color: var(--text-primary) !important;
+}
+body.dark-mode p {
+  color: #adbac7 !important;
+}
+body.dark-mode label {
+  color: #adbac7 !important;
+}
+body.dark-mode small {
+  color: #768390 !important;
+}
+
+/* ── TABLES ── */
+body.dark-mode .table {
+  color: var(--text-primary) !important;
+  border-color: #2d333b !important;
+}
+body.dark-mode .table-light,
+body.dark-mode .table-light th {
+  background: #1c2128 !important;
+  color: #adbac7 !important;
+  border-color: #2d333b !important;
+}
+body.dark-mode .table tbody tr td {
+  color: var(--text-primary) !important;
+  border-color: #2d333b !important;
+}
+body.dark-mode .table-hover tbody tr:hover td {
+  background: #1c2128 !important;
+}
+body.dark-mode .table-responsive {
+  border-color: #2d333b !important;
+}
+
+/* ── FORMS ── */
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .form-control:disabled,
+body.dark-mode .form-control[readonly] {
+  background: #1c2128 !important;
+  color: var(--text-primary) !important;
+  border-color: #2d333b !important;
+}
+body.dark-mode .form-control::placeholder {
+  color: #4d5966 !important;
+}
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+  background: #1c2128 !important;
+  color: var(--text-primary) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(88,166,255,0.15) !important;
+}
+body.dark-mode .input-group-text {
+  background: #1c2128 !important;
+  color: #adbac7 !important;
+  border-color: #2d333b !important;
+}
+body.dark-mode .bg-light.form-control,
+body.dark-mode .form-control.bg-light {
+  background: #1c2128 !important;
+}
+body.dark-mode textarea {
+  background: #1c2128 !important;
+  color: var(--text-primary) !important;
+  border-color: #2d333b !important;
+}
+
+/* ── BADGES ── */
+body.dark-mode .badge.bg-light,
+body.dark-mode .badge.text-dark {
+  background: #2d333b !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .badge.bg-secondary {
+  background: #2d333b !important;
+}
+
+/* ── BUTTONS ── */
+body.dark-mode .btn-outline-secondary {
+  color: #adbac7 !important;
+  border-color: #2d333b !important;
+}
+body.dark-mode .btn-outline-secondary:hover {
+  background: #2d333b !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .btn-light {
+  background: #2d333b !important;
+  color: var(--text-primary) !important;
+  border-color: #2d333b !important;
+}
+body.dark-mode .btn-close {
+  filter: invert(1) !important;
+}
+
+/* ── SIDEBAR ── */
+body.dark-mode .sidebar {
+  background: var(--bg-page) !important;
+  border-right: 1px solid #2d333b !important;
+}
+body.dark-mode .sidebar .text-muted {
+  color: #4d5966 !important;
+}
+body.dark-mode .sidebar .nav-link {
+  color: #adbac7 !important;
+  border-left-color: transparent !important;
+}
+body.dark-mode .sidebar .nav-link:hover,
+body.dark-mode .sidebar .nav-link.active {
+  background: #1c2128 !important;
+  color: var(--accent) !important;
+  border-left-color: var(--accent) !important;
+}
+
+/* ── WELCOME HEADER / PAGE HEADER ── */
+body.dark-mode .welcome-header,
+body.dark-mode .page-header {
+  background: linear-gradient(135deg, #0f3460, #123160) !important;
+}
+
+/* ── STAT CARDS ── */
+body.dark-mode .stat-card {
+  background: var(--bg-card) !important;
+}
+body.dark-mode .stat-card .label {
+  color: #768390 !important;
+}
+
+/* ── ALERTS ── */
+body.dark-mode .alert-success {
+  background: #1a2e1a !important;
+  border-color: #2d5a2d !important;
+  color: #7ee787 !important;
+}
+body.dark-mode .alert-danger {
+  background: #2e1a1a !important;
+  border-color: #5a2d2d !important;
+  color: #f87171 !important;
+}
+body.dark-mode .alert-warning {
+  background: #2e2a1a !important;
+  border-color: #5a4a2d !important;
+  color: #fbbf24 !important;
+}
+body.dark-mode .alert-info {
+  background: #1a2535 !important;
+  border-color: #2d4a5a !important;
+  color: #7FB0E6 !important;
+}
+
+/* ── MODALS ── */
+body.dark-mode .modal-content {
+  background: var(--bg-card) !important;
+  border-color: #2d333b !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+  border-color: #2d333b !important;
+}
+body.dark-mode .modal-title {
+  color: var(--text-primary) !important;
+}
+
+/* ── DROPDOWNS ── */
+body.dark-mode .dropdown-menu {
+  background: var(--bg-card) !important;
+  border-color: #2d333b !important;
+}
+body.dark-mode .dropdown-item {
+  color: #adbac7 !important;
+}
+body.dark-mode .dropdown-item:hover {
+  background: #1c2128 !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .dropdown-divider {
+  border-color: #2d333b !important;
+}
+
+/* ── LIST GROUPS ── */
+body.dark-mode .list-group-item {
+  background: var(--bg-card) !important;
+  border-color: #2d333b !important;
+  color: var(--text-primary) !important;
+}
+body.dark-mode .list-group-item:hover {
+  background: #1c2128 !important;
+}
+
+/* ── BORDERS / DIVIDERS ── */
+body.dark-mode hr {
+  border-color: #2d333b !important;
+}
+body.dark-mode .border,
+body.dark-mode .border-bottom,
+body.dark-mode .border-top {
+  border-color: #2d333b !important;
+}
+body.dark-mode [style*="border-bottom: 1px solid #f1f5f9"],
+body.dark-mode [style*="borderBottom: '1px solid #f1f5f9'"] {
+  border-color: #2d333b !important;
+}
+
+/* ── PROGRESS BARS ── */
+body.dark-mode .progress {
+  background: #2d333b !important;
+}
+
+/* ── SPECIFIC PAGE FIXES ── */
+
+/* JobList search bg */
+body.dark-mode .bg-white.border-end-0,
+body.dark-mode .input-group .bg-white {
+  background: #1c2128 !important;
+}
+
+/* Job cards skill badges */
+body.dark-mode .skill-badge.unverified {
+  background: #2d333b !important;
+  color: #adbac7 !important;
+}
+body.dark-mode .skill-badge.verified {
+  background: #1a2e1a !important;
+  color: #7ee787 !important;
+}
+
+/* Career room checklist */
+body.dark-mode [style*="border-bottom: '1px solid #f1f5f9'"] {
+  border-color: #2d333b !important;
+}
+
+/* Profile disabled input */
+body.dark-mode .bg-light {
+  background: #1c2128 !important;
+}
+
+/* PostJob salary input-group */
+body.dark-mode .input-group-text.bg-light {
+  background: #1c2128 !important;
+  color: #adbac7 !important;
+}
+
+/* Home page light sections */
+body.dark-mode section[style*="background.*#f"],
+body.dark-mode section[style*="background.*#F"] {
+  background: var(--bg-card) !important;
+}
+
+/* Bottom mobile nav */
+body.dark-mode .mobile-bottom-nav {
+  background: var(--bg-page) !important;
+  border-top: 1px solid #2d333b !important;
+}
+body.dark-mode .mobile-bottom-nav .nav-link {
+  color: #768390 !important;
+}
+body.dark-mode .mobile-bottom-nav .nav-link.active {
+  color: var(--accent) !important;
+}
+
+/* Rounded info boxes */
+body.dark-mode [style*="background: '#EEF3F8'"],
+body.dark-mode [style*="background:'#EEF3F8'"] {
+  background: #1c2128 !important;
+}
+body.dark-mode [style*="background: '#F1F5F9'"],
+body.dark-mode [style*="background:'#F1F5F9'"],
+body.dark-mode [style*="background: '#f8f9fa'"] {
+  background: #1c2128 !important;
+}
+
+/* Interview cards */
+body.dark-mode .rounded-3.border {
+  border-color: #2d333b !important;
+  background: var(--bg-card) !important;
+}
+
+/* Notification dropdown */
+body.dark-mode .notif-dropdown {
+  background: var(--bg-card) !important;
+}
+
+/* ── MAIN CONTENT AREA ── */
+body.dark-mode .main-content {
+  background: transparent !important;
+}
+
+/* ── SCROLLBAR ── */
+body.dark-mode ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+body.dark-mode ::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: #2d333b;
+  border-radius: 4px;
+}
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: #4d5966;
+}
+
+
+
+/* ─── DARK MODE: INTERVIEW TEAL COLORS ─── */
+body.dark-mode [style*="background:'#CCFBF1'"],
+body.dark-mode [style*="background: '#CCFBF1'"],
+body.dark-mode [style*='background:"#CCFBF1"'] {
+  background: #0d2e2b !important;
+}
+body.dark-mode [style*="color:'#0F766E'"],
+body.dark-mode [style*="color: '#0F766E'"],
+body.dark-mode [style*='color:"#0F766E"'] {
+  color: #2dd4bf !important;
+}
+body.dark-mode [style*="border:1px solid #99F6E4"],
+body.dark-mode [style*="border: 1px solid #99F6E4"],
+body.dark-mode [style*="border:'1px solid #99F6E4'"] {
+  border-color: #0f766e !important;
+}
+/* Bootstrap info badge in dark mode */
+body.dark-mode .badge.bg-info {
+  background: #0d2e2b !important;
+  color: #2dd4bf !important;
+}
+
+/* ─── TYPING CURSOR BLINK ─── */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ─── COMPANY NAME HIGHLIGHT ─── */
+.company-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #EEF3F8;
+  color: #123160;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+body.dark-mode .company-badge {
+  background: #1c2d3e !important;
+  color: #7FB0E6 !important;
+}
+
+/* ════════════════════════════════════════════════════════════
+   DARK-MODE VISIBILITY PATCH (TMS theme)
+   Catches hardcoded INLINE colors that don't otherwise adapt,
+   so no text/panel goes invisible when dark mode is on.
+   ════════════════════════════════════════════════════════════ */
+
+/* Inline brand-navy TEXT (#123160) → lift to a readable blue on dark bg.
+   (Background uses of the same hex are fine and intentionally left dark.) */
+body.dark-mode [style*="color:#123160"],
+body.dark-mode [style*="color: #123160"],
+body.dark-mode [style*="color:'#123160'"],
+body.dark-mode [style*="color: '#123160'"] {
+  color: #7FB0E6 !important;
+}
+
+/* Inline deep-navy text → readable blue */
+body.dark-mode [style*="color:#0C2C54"],
+body.dark-mode [style*="color: #0C2C54"],
+body.dark-mode [style*="color:'#0C2C54'"],
+body.dark-mode [style*="color: '#0C2C54'"] {
+  color: #7FB0E6 !important;
+}
+
+/* Inline white / near-white panel BACKGROUNDS → dark card surface */
+body.dark-mode [style*="background:#fff"],
+body.dark-mode [style*="background: #fff"],
+body.dark-mode [style*="background:'#fff'"],
+body.dark-mode [style*="background: '#fff'"],
+body.dark-mode [style*="background:#ffffff"],
+body.dark-mode [style*="background: #ffffff"],
+body.dark-mode [style*="background-color:#fff"],
+body.dark-mode [style*="background-color: #fff"] {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Register role-select cards (selected = navy tint) → dark equivalents */
+body.dark-mode [style*="background:#EEF3F8"],
+body.dark-mode [style*="background: #EEF3F8"],
+body.dark-mode [style*="background:'#EEF3F8'"],
+body.dark-mode [style*="background: '#EEF3F8'"] {
+  background: #15243a !important;
+}
+
+/* Any inline border using the soft grey → dark border */
+body.dark-mode [style*="solid #e2e8f0"],
+body.dark-mode [style*="solid #E2E8F0"] {
+  border-color: #2d333b !important;
+}
+
+/* Bootstrap text-primary (used for navy links/labels) lift in dark mode */
+body.dark-mode .text-primary { color: #7FB0E6 !important; }
+
+/* Orange accent stays vivid & readable in dark mode automatically (#ff8b3d set above) */
+
+/* ─── TMS-STYLE FORM POLISH ───
+   Slightly larger, rounder inputs with a clear navy focus ring,
+   matching the clean card-form feel of the TMS sign-in. */
+.form-control, .form-select {
+  border-radius: 10px;
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+}
+.form-label.fw-semibold { color: var(--li-dark); }
+body.dark-mode .form-label.fw-semibold { color: #adbac7; }
+
+/* Primary buttons: institutional navy with confident weight (TMS SIGN IN feel) */
+.btn-primary,
+.btn[style*="#123160"] {
+  letter-spacing: 0.02em;
+}
+
+/* ════════════════════════════════════════════════════════════
+   AUTH BRAND PANEL — responsive version (Login / Register).
+   Was d-none below lg (fully hidden on mobile/tablet). Now it's
+   a compact horizontal navy strip (logo left, name+tagline right)
+   on small screens, and the original tall centered panel at lg+.
+   ════════════════════════════════════════════════════════════ */
+.auth-logo-img { width: 40px; height: 40px; }
+@media (min-width: 992px) { .auth-logo-img { width: 56px; height: 56px; } }
+
+.auth-brand-title { font-size: 1.3rem; line-height: 1.2; }
+@media (min-width: 992px) { .auth-brand-title { font-size: 1.75rem; } }
+
+.auth-tagline { max-width: none; }
+@media (min-width: 992px) { .auth-tagline { max-width: 220px; margin: 0 auto; } }
+
+/* ════════════════════════════════════════════════════════════
+   DARK-MODE INLINE-STYLE FIX  (rgb-serialized form)
+   React applies inline styles via the CSSOM, so the browser
+   re-serializes hex colors to rgb() in the style attribute.
+   The earlier hex-based [style*=...] rules therefore never
+   matched. These rgb()-based rules DO match and recolour every
+   hardcoded inline value so nothing is invisible in dark mode.
+   ════════════════════════════════════════════════════════════ */
+
+/* — inline TEXT colours → readable on dark — */
+body.dark-mode [style*="color: rgb(10, 102, 194)"] { color: #7FB0E6 !important; }
+body.dark-mode [style*="color: rgb(21, 72, 127)"],
+body.dark-mode [style*="color: rgb(18, 49, 96)"] { color: #7FB0E6 !important; }
+body.dark-mode [style*="color: rgb(5, 118, 66)"] { color: #3fb950 !important; }
+body.dark-mode [style*="color: rgb(6, 95, 70)"] { color: #3fb950 !important; }
+body.dark-mode [style*="color: rgb(15, 118, 110)"] { color: #2dd4bf !important; }
+body.dark-mode [style*="color: rgb(153, 27, 27)"] { color: #f87171 !important; }
+body.dark-mode [style*="color: rgb(185, 28, 28)"] { color: #f87171 !important; }
+body.dark-mode [style*="color: rgb(220, 53, 69)"] { color: #f87171 !important; }
+body.dark-mode [style*="color: rgb(217, 119, 6)"] { color: #fbbf24 !important; }
+body.dark-mode [style*="color: rgb(146, 64, 14)"] { color: #fbbf24 !important; }
+body.dark-mode [style*="color: rgb(120, 53, 15)"] { color: #fbbf24 !important; }
+body.dark-mode [style*="color: rgb(245, 158, 11)"] { color: #fbbf24 !important; }
+body.dark-mode [style*="color: rgb(124, 58, 237)"] { color: #a78bfa !important; }
+body.dark-mode [style*="color: rgb(30, 64, 175)"] { color: #7FB0E6 !important; }
+body.dark-mode [style*="color: rgb(14, 165, 233)"] { color: #7FB0E6 !important; }
+body.dark-mode [style*="color: rgb(71, 85, 105)"] { color: #adbac7 !important; }
+body.dark-mode [style*="color: rgb(108, 117, 125)"] { color: #9aa6b2 !important; }
+body.dark-mode [style*="color: rgb(68, 68, 68)"] { color: #c9d1d9 !important; }
+
+/* — inline light-tint BACKGROUNDS → dark tints (text stays readable) — */
+body.dark-mode [style*="background: rgb(238, 243, 248)"],
+body.dark-mode [style*="background-color: rgb(238, 243, 248)"] { background: #15243a !important; }
+body.dark-mode [style*="background: rgb(248, 250, 252)"],
+body.dark-mode [style*="background-color: rgb(248, 250, 252)"] { background: #1c2128 !important; }
+body.dark-mode [style*="background: rgb(241, 245, 249)"],
+body.dark-mode [style*="background-color: rgb(241, 245, 249)"] { background: #1c2128 !important; }
+body.dark-mode [style*="background: rgb(248, 249, 250)"],
+body.dark-mode [style*="background-color: rgb(248, 249, 250)"] { background: #1c2128 !important; }
+body.dark-mode [style*="background: rgb(209, 250, 229)"],
+body.dark-mode [style*="background-color: rgb(209, 250, 229)"] { background: #0a2e1a !important; }
+body.dark-mode [style*="background: rgb(254, 226, 226)"],
+body.dark-mode [style*="background-color: rgb(254, 226, 226)"] { background: #2e1a1a !important; }
+body.dark-mode [style*="background: rgb(204, 251, 241)"],
+body.dark-mode [style*="background-color: rgb(204, 251, 241)"] { background: #0d2e2b !important; }
+body.dark-mode [style*="background: rgb(254, 243, 199)"],
+body.dark-mode [style*="background-color: rgb(254, 243, 199)"] { background: #2e2a1a !important; }
+body.dark-mode [style*="background: rgb(219, 234, 254)"],
+body.dark-mode [style*="background-color: rgb(219, 234, 254)"] { background: #15243a !important; }
+body.dark-mode [style*="background: rgb(220, 252, 231)"],
+body.dark-mode [style*="background-color: rgb(220, 252, 231)"] { background: #0a2e1a !important; }
+
+/* — inline white panel backgrounds → dark card surface — */
+body.dark-mode [style*="background: rgb(255, 255, 255)"],
+body.dark-mode [style*="background-color: rgb(255, 255, 255)"] { background: var(--bg-card) !important; }
+
+/* — inline soft-grey borders → dark border — */
+body.dark-mode [style*="rgb(226, 232, 240)"] { border-color: #2d333b !important; }
+body.dark-mode [style*="rgb(241, 245, 249)"] { border-color: #2d333b !important; }
+
+/* — #E2E8F0 used as progress-track / divider bg → dark track — */
+body.dark-mode [style*="background: rgb(226, 232, 240)"],
+body.dark-mode [style*="background-color: rgb(226, 232, 240)"] { background: #2d333b !important; }
+
+/* — keep solid brand-blue progress fills visible (they already read fine) — */
+body.dark-mode [style*="background: rgb(10, 102, 194)"] { /* primary buttons/fills: leave as-is */ }
+
+
+/* ════════════════════════════════════════════════════════════
+   PREMIUM HERO CTA BUTTONS  +  GLOBAL "never invisible" SAFETY NET
+   The hero sits inside a Bootstrap .text-white block (which sets an
+   !important white colour + inherited --bs-text-opacity). When an
+   outline-light button fills white on hover, its label could resolve
+   to white-on-white. These explicit buttons pin their own colours in
+   every state and theme, so the text is ALWAYS readable.
+   ════════════════════════════════════════════════════════════ */
+
+/* — Solid white CTA: brand-blue label, soft elevation — */
+.btn-hero-primary {
+  background: #ffffff;
+  color: #123160 !important;
+  border: 1.5px solid #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.btn-hero-primary i { color: inherit !important; }
+.btn-hero-primary:hover,
+.btn-hero-primary:focus,
+.btn-hero-primary:active {
+  background: #E6EDF5;
+  color: #0A2347 !important;
+  border-color: #E6EDF5;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.26);
+  transform: translateY(-2px);
+}
+
+/* — Glass ghost CTA: white label, frosted fill; fills white + blue label on hover — */
+.btn-hero-ghost {
+  background: rgba(255, 255, 255, 0.10);
+  color: #ffffff !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.btn-hero-ghost i { color: inherit !important; }
+.btn-hero-ghost:hover,
+.btn-hero-ghost:focus,
+.btn-hero-ghost:active {
+  background: #ffffff;
+  color: #123160 !important;          /* guaranteed dark label on white */
+  border-color: #ffffff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  transform: translateY(-2px);
+}
+
+/* Keep them identical in dark mode (don't let generic dark btn rules touch them) */
+body.dark-mode .btn-hero-primary,
+body.dark-mode .btn-hero-primary i { background: #ffffff; color: #123160 !important; border-color: #ffffff; }
+body.dark-mode .btn-hero-primary:hover,
+body.dark-mode .btn-hero-primary:focus { background: #E6EDF5; color: #0A2347 !important; border-color: #E6EDF5; }
+body.dark-mode .btn-hero-ghost,
+body.dark-mode .btn-hero-ghost i { color: #ffffff !important; }
+body.dark-mode .btn-hero-ghost:hover,
+body.dark-mode .btn-hero-ghost:focus { background: #ffffff; color: #123160 !important; border-color: #ffffff; }
+
+/* — GLOBAL SAFETY NET — any leftover Bootstrap light/outline-light button
+     (e.g. the dashboard "Refresh" buttons on navy headers) gets a guaranteed
+     readable label on hover, in BOTH themes. — */
+.btn-outline-light,
+.btn-outline-light i { color: #ffffff; }
+.btn-outline-light:hover,
+.btn-outline-light:focus,
+.btn-outline-light:active,
+.btn-outline-light:hover i,
+.btn-outline-light:focus i {
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #123160 !important;
+}
+body.dark-mode .btn-outline-light,
+body.dark-mode .btn-outline-light i { color: #e6edf3 !important; border-color: rgba(255,255,255,0.55) !important; }
+body.dark-mode .btn-outline-light:hover,
+body.dark-mode .btn-outline-light:focus,
+body.dark-mode .btn-outline-light:active,
+body.dark-mode .btn-outline-light:hover i,
+body.dark-mode .btn-outline-light:focus i {
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #123160 !important;
+}
+/* btn-light label safety (it carries an inline blue in the app; keep it readable in dark) */
+body.dark-mode .btn-light,
+body.dark-mode .btn-light i { color: #123160 !important; }
+body.dark-mode .btn-light { background: #ffffff !important; border-color: #ffffff !important; }
+body.dark-mode .btn-light:hover { background: #E6EDF5 !important; color: #0A2347 !important; }
+
+/* ── PREMIUM POLISH: feature/value cards lift a touch more crisply ── */
+/* NOTE: applying will-change permanently promotes every card to its own GPU
+   layer, which softens/blurs text rendering. Apply it only during hover so the
+   lift stays smooth but text is crystal clear at rest. */
+/* (Removed will-change on hover — the backface-visibility fix above keeps the
+   lift smooth without the extra GPU layer that was softening the text.) */
+
+/* — deep-navy inline TEXT (new brand hues) → readable on dark — */
+body.dark-mode [style*="color: rgb(10, 35, 71)"],
+body.dark-mode [style*="color: rgb(15, 52, 96)"] { color: #7FB0E6 !important; }
+
+/* Bootstrap .text-primary → brand navy in light mode (dark mode already lifted) */
+body:not(.dark-mode) .text-primary { color: #123160 !important; }
+
+/* ════════════════════════════════════════════════════════════
+   BOOTSTRAP BLUE → NAVY (catch any default-styled element)
+   Maps Bootstrap's --bs-primary / link colours to the brand navy so
+   default links, .link-primary, .bg-primary, .border-primary,
+   spinners, pagination, form-range, etc. are navy, not blue.
+   ════════════════════════════════════════════════════════════ */
+:root {
+  --bs-primary: #123160;
+  --bs-primary-rgb: 21, 72, 127;
+  --bs-link-color: #123160;
+  --bs-link-color-rgb: 21, 72, 127;
+  --bs-link-hover-color: #0A2347;
+  --bs-link-hover-color-rgb: 10, 35, 71;
+}
+body.dark-mode {
+  --bs-link-color: #7FB0E6;
+  --bs-link-color-rgb: 127, 176, 230;
+  --bs-link-hover-color: #9cc4ec;
+  --bs-link-hover-color-rgb: 156, 196, 236;
+}
+.bg-primary { background-color: #123160 !important; }
+.text-bg-primary { background-color: #123160 !important; color: #fff !important; }
+.border-primary { border-color: #123160 !important; }
+.link-primary { color: #123160 !important; }
+.link-primary:hover { color: #0A2347 !important; }
+.btn-outline-primary {
+  --bs-btn-color: #123160; --bs-btn-border-color: #123160;
+  --bs-btn-hover-bg: #123160; --bs-btn-hover-border-color: #123160;
+  --bs-btn-active-bg: #0A2347; --bs-btn-active-border-color: #0A2347;
+}
+body.dark-mode .btn-outline-primary {
+  --bs-btn-color: #7FB0E6; --bs-btn-border-color: #5b9bd5;
+  --bs-btn-hover-bg: #123160; --bs-btn-hover-border-color: #123160; --bs-btn-hover-color: #fff;
+}
+
+/* Premium: faded white text on navy reads a little stronger (less "washed out") */
+.text-white-50 { --bs-text-opacity: 0.72 !important; }
+
+/* ── Colorful theme toggle: warm sun (light) / cool moon (dark) ── */
+.theme-toggle-btn:hover {
+  transform: scale(1.08) rotate(-8deg);
+  filter: brightness(1.1);
+}
+.theme-toggle-btn:active { transform: scale(0.95); }
+
+/* ════════════════════════════════════════════════════════════
+   TMS-STYLE FORM INTERACTION  (reference: CDAC Training Mgmt System)
+   - Label "lights up" navy the instant its input is focused
+   - Input border thickens + glows navy on focus (the "line moving
+     while typing" feel from the reference)
+   - Works with the EXISTING label-above-input markup everywhere
+     in the app — no JSX changes needed on any of the 20+ forms.
+   - Primary submit buttons: solid navy, bold, letter-spaced caps
+     like "SIGN IN" / "REGISTER" in the reference.
+   - Secondary actions (Register / Forgot password style links that
+     sit inside a bordered pill) get the outlined-accent treatment.
+   ════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════════
+   TMS-STYLE FORM INTERACTION v2 — bold & unmistakable
+   ════════════════════════════════════════════════════════════ */
+.form-label {
+  transition: color 0.18s ease;
+}
+.mb-3:has(.form-control:focus) .form-label,
+.mb-2:has(.form-control:focus) .form-label,
+.mb-1:has(.form-control:focus) .form-label,
+.mb-4:has(.form-control:focus) .form-label,
+[class*="col-"]:has(.form-control:focus) .form-label,
+.mb-3:has(.form-select:focus) .form-label,
+[class*="col-"]:has(.form-select:focus) .form-label {
+  color: var(--accent) !important;
+  font-weight: 700 !important;
+}
+
+.form-control, .form-select {
+  border: 1px solid #cdd5e0 !important;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.15s ease !important;
+}
+.form-control:focus, .form-select:focus {
+  border: 2px solid var(--accent) !important;
+  box-shadow: 0 0 0 4px rgba(18, 49, 96, 0.18) !important;
+  transform: translateY(-1px) !important;
+  outline: none !important;
+}
+body.dark-mode .form-control:focus, body.dark-mode .form-select:focus {
+  box-shadow: 0 0 0 4px rgba(91, 155, 213, 0.25) !important;
+}
+
+form button[type="submit"] {
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  border-radius: 10px !important;
+  padding-top: 0.7rem !important;
+  padding-bottom: 0.7rem !important;
+}
+
+/* Secondary "Register" style pill-bordered action (the orange-outlined
+   button-in-a-banner from the reference), reused for any secondary CTA
+   placed inside a tinted info strip. */
+.btn-outline-accent2 {
+  background: transparent;
+  color: #FB923C;
+  border: 1.5px solid #FB923C;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.btn-outline-accent2:hover {
+  background: #FB923C;
+  color: #fff;
+}
+
+/* ════════════════════════════════════════════════════════════
+   TMS-STYLE FLOATING LABEL (true version — label sits ON the
+   input border, like "⌐ Select Role ⌐" in the reference image)
+   DOM required: <div class="float-field"><input placeholder=" " .../><label>Text</label></div>
+   (input MUST come before label — that's how the CSS selects it)
+
+   TWO STATES:
+   - RESTING (empty + not focused): label sits INSIDE the box,
+     vertically centered, like placeholder text.
+   - ACTIVE (focused OR has a value): label jumps up to sit ON
+     the border line, shrinks slightly, turns navy.
+   ════════════════════════════════════════════════════════════ */
+.float-field {
+  position: relative;
+  margin-bottom: 1.1rem;
+}
+.float-field.mb-4 { margin-bottom: 1.5rem; }
+.float-field > .form-control,
+.float-field > .form-select {
+  height: 52px;
+  width: 100%;
+}
+.float-field > textarea.form-control {
+  height: auto;
+  min-height: 90px;
+}
+
+/* RESTING: label centered inside the box, looks like a placeholder */
+.float-field > label {
+  position: absolute;
+  left: 13px;
+  top: 26px;                 /* half of the 52px input — centers on the INPUT, not
+                                the wrapper, so sibling help text can't push it down */
+  transform: translateY(-50%);
+  background: transparent;
+  padding: 0 4px;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0;
+  pointer-events: none;
+  transition: all 0.15s ease;
+  z-index: 2;
+  border-radius: 4px;
+  max-width: calc(100% - 26px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ACTIVE: input is focused OR already has a value typed in it
+   (:placeholder-shown is false once there's real text, because
+   every converted input uses placeholder=" ") */
+.float-field > .form-control:focus ~ label,
+.float-field > .form-control:not(:placeholder-shown) ~ label,
+.float-field > .form-select:focus ~ label,
+.float-field > .form-select:not([value=""]) ~ label {
+  top: 0;
+  transform: translateY(-50%);
+  background: var(--bg-card, #fff);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+.float-field > .form-control:focus ~ label,
+.float-field > .form-select:focus ~ label {
+  color: var(--accent) !important;
+}
+body.dark-mode .float-field > .form-control:focus ~ label,
+body.dark-mode .float-field > .form-control:not(:placeholder-shown) ~ label,
+body.dark-mode .float-field > .form-select:focus ~ label {
+  background: var(--bg-card, #1c2128);
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   TMS-STYLE SECONDARY-ACTION BANNER
+   (reference: navy strip + orange outlined pill button, e.g.
+   "New applicant? PG Certificate Programme — [Register]")
+   ════════════════════════════════════════════════════════════ */
+.auth-action-banner {
+  background: linear-gradient(135deg, #123160 0%, #0A2347 100%);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 1.25rem;
+}
+.auth-action-banner .auth-action-text {
+  color: #fff;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.auth-action-btn {
+  background: transparent;
+  color: #FB923C;
+  border: 1.5px solid #FB923C;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  border-radius: 8px;
+  padding: 8px 16px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.auth-action-btn:hover {
+  background: #FB923C;
+  color: #fff !important;
+}
+@media (max-width: 420px) {
+  .auth-action-banner { flex-wrap: wrap; }
+}
+
+/* Display-scale token for one-off large numerals (404, empty-state icons),
+   intentionally outside the heading scale since it isn't a heading. */
+:root { --fs-display: 3.25rem; }
+
+/* ════════════════════════════════════════════════════════════
+   NAVY JOB CARDS  (Browse Jobs, Saved Jobs, dashboards, etc.)
+   Solid deep navy, same tone as the header banner. Every piece
+   of text/badge inside is re-colored so nothing goes invisible —
+   same care as the dark-mode pass, just applied to a navy card
+   in LIGHT mode too.
+   ════════════════════════════════════════════════════════════ */
+.job-card {
+  background: linear-gradient(160deg, #123160 0%, #0A2347 100%) !important;
+  border: 1px solid #0A2347 !important;
+  color: #fff;
+}
+body.dark-mode .job-card {
+  background: linear-gradient(160deg, #123160 0%, #0A2347 100%) !important;
+  border: 1px solid #2d333b !important;
+}
+
+/* Job title + company name */
+.job-card .fw-bold { color: #fff !important; }
+.job-card .text-muted { color: rgba(255,255,255,0.65) !important; }
+.job-card small.text-muted { color: rgba(255,255,255,0.6) !important; }
+
+/* Salary / experience / job-type pills — were bg-light text-dark
+   (invisible on navy) → frosted glass pill, white text */
+.job-card .badge.bg-light {
+  background: rgba(255,255,255,0.14) !important;
+  color: #fff !important;
+}
+
+/* Skill pills — keep them legible: light chip on the dark card */
+.job-card .skill-badge {
+  background: rgba(255,255,255,0.92) !important;
+  color: #123160 !important;
+}
+
+/* Remote badge — keep its green, just brighten for contrast on navy */
+.job-card .badge[style*="rgb(209, 250, 229)"] {
+  background: rgba(74, 222, 128, 0.22) !important;
+  color: #86efac !important;
+}
+
+/* Bookmark button circle — was a light tint, now a frosted circle */
+.job-card button.rounded-circle {
+  background: rgba(255,255,255,0.14) !important;
+}
+.job-card button.rounded-circle i { color: #fff !important; }
+
+/* "View Job" button — keep it solid white so it still pops off navy */
+.job-card .btn.text-white {
+  background: #fff !important;
+  color: #123160 !important;
+}
+.job-card .btn.text-white:hover {
+  background: #FB923C !important;
+  color: #fff !important;
+}
+
+/* ════════════════════════════════════════════════════════════
+   NAVY EMPLOYER JOB-POSTING ROW (Employer Dashboard → My Job Postings)
+   Same solid navy as the Browse Jobs cards. Every internal element
+   recolored for contrast — title, badges, salary line, skill pills,
+   and every action button (Applicants / Inquiries / Edit / Pause / Delete).
+   ════════════════════════════════════════════════════════════ */
+.employer-job-row {
+  background: linear-gradient(160deg, #123160 0%, #0A2347 100%) !important;
+  border: 1px solid #0A2347 !important;
+  color: #fff;
+}
+body.dark-mode .employer-job-row {
+  background: linear-gradient(160deg, #123160 0%, #0A2347 100%) !important;
+  border-color: #2d333b !important;
+}
+
+/* Job title */
+.employer-job-row .fw-bold { color: #fff !important; }
+
+/* Company badge chip */
+.employer-job-row .company-badge {
+  background: rgba(255,255,255,0.14) !important;
+  color: #fff !important;
+}
+
+/* Salary / experience / job-type line */
+.employer-job-row .text-muted { color: rgba(255,255,255,0.65) !important; }
+
+/* Skill pills — light chip on the dark row, same treatment as job-card */
+.employer-job-row .skill-badge {
+  background: rgba(255,255,255,0.92) !important;
+  color: #123160 !important;
+}
+
+/* Remote badge — brighten green for contrast on navy */
+.employer-job-row .badge[style*="rgb(209, 250, 229)"] {
+  background: rgba(74, 222, 128, 0.22) !important;
+  color: #86efac !important;
+}
+
+/* Status badge (OPEN/PAUSED/CLOSED) — keep solid, just ensure border reads on navy */
+.employer-job-row .badge.bg-success,
+.employer-job-row .badge.bg-warning,
+.employer-job-row .badge.bg-danger,
+.employer-job-row .badge.bg-secondary {
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Action buttons — were light-tint/dark-text pills, now frosted on navy */
+.employer-job-row .btn[style*="rgb(238, 243, 248)"] {
+  background: rgba(255,255,255,0.14) !important;
+  color: #fff !important;
+  border-color: rgba(255,255,255,0.35) !important;
+}
+.employer-job-row .btn[style*="rgb(204, 251, 241)"] {
+  background: rgba(45,212,191,0.22) !important;
+  color: #5eead4 !important;
+  border-color: rgba(94,234,212,0.4) !important;
+}
+.employer-job-row .btn[style*="rgb(209, 250, 229)"] {
+  background: rgba(74,222,128,0.22) !important;
+  color: #86efac !important;
+  border-color: rgba(134,239,172,0.4) !important;
+}
+.employer-job-row .btn[style*="rgb(254, 226, 226)"] {
+  background: rgba(248,113,113,0.22) !important;
+  color: #fca5a5 !important;
+  border-color: rgba(252,165,165,0.4) !important;
+}
+/* "Inquiries" toggled-active state was solid navy-on-white; on a navy row
+   that needs to invert to stay visible as "active" */
+.employer-job-row .btn[style*="background: rgb(18, 49, 96)"] {
+  background: #fff !important;
+  color: #123160 !important;
+}
+
+/* Inquiries expansion panel underneath — was a light-grey box */
+.employer-job-row [style*="rgb(248, 250, 252)"] {
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.2) !important;
+  color: #fff !important;
+}
+
+/* ════════════════════════════════════════════════════════════
+   BULLETPROOF CIRCLE — theme toggle + notification bell.
+   Forces a true circle regardless of any other rule, using
+   !important on every corner individually (not just the
+   shorthand) plus aspect-ratio as a backstop if width/height
+   ever get squeezed by a flex/grid parent.
+   ════════════════════════════════════════════════════════════ */
+.icon-btn-circle {
+  border-radius: 50% !important;
+  border-top-left-radius: 50% !important;
+  border-top-right-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  padding: 0 !important;
+}
+/* ════════════════════════════════════════════════════════════
+   MOBILE NAVBAR DROPDOWN — overlay, don't push the page down
+   By default Bootstrap's collapsed menu is position:static, so
+   opening it shifts all page content downward. Below the lg
+   breakpoint we float it as an absolute dropdown that overlaps
+   the page instead.
+   ════════════════════════════════════════════════════════════ */
+@media (max-width: 991.98px) {
+  .navbar-expand-lg .navbar-collapse {
+    position: absolute;
+    top: 100%;               /* sit just below the navbar */
+    left: 0;
+    right: 0;
+    background: #0A2347;      /* deep navy — matches the site theme */
+    padding: 12px 18px 16px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 0 0 14px 14px;
+    z-index: 1050;           /* above page content */
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;        /* scroll if the menu is taller than the screen */
+  }
+  body.dark-mode .navbar-expand-lg .navbar-collapse {
+    /* slightly lifted navy so the panel stays visible against the darker page */
+    background: #0F2A52;
+    border-top-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+  }
+
+  /* ── SNAPPY OPEN/CLOSE ──
+     Bootstrap animates the collapse by transitioning height over ~350ms,
+     which makes closing the menu feel slow. Since the menu now overlays
+     (absolute) instead of pushing the page, it doesn't need that height
+     animation. We disable the height transition so closing is instant and
+     use a fast fade for a subtle, snappy entrance. */
+  .navbar-expand-lg .navbar-collapse.collapsing {
+    height: auto !important;
+    transition: none !important;
+  }
+  .navbar-expand-lg .navbar-collapse.collapse.show {
+    animation: navDropIn 0.12s ease-out;
+  }
+}
+@keyframes navDropIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* The sticky navbar already establishes a positioning context, so the absolute
+   mobile dropdown above anchors to it correctly — no extra rule needed. */
+/* ── Password show/hide eye toggle (sits inside the input, right side) ── */
+.pwd-wrap { position: relative; display: block; }
+.pwd-wrap > input,
+.pwd-wrap > .form-control { padding-right: 44px !important; }
+.pwd-toggle {
+  position: absolute !important;
+  top: 26px;                 /* vertical centre of the 52px float-field input */
+  right: 10px;
+  transform: translateY(-50%);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 4px !important;
+  margin: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  cursor: pointer;
+  color: var(--text-muted, #6c757d);
+  font-size: 1.1rem;
+  line-height: 1;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pwd-toggle:hover,
+.pwd-toggle:focus { color: var(--accent, #123160); background: transparent !important; box-shadow: none !important; }
+
+/* ── Floating label INSIDE pwd-wrap ──
+   The float-field label rules only match a label that is a direct sibling of the
+   input. Since the eye toggle wraps the input in .pwd-wrap, the label sits inside
+   .pwd-wrap instead, so we replicate the resting + floated states here. */
+.float-field .pwd-wrap { position: relative; }
+.float-field .pwd-wrap > label {
+  position: absolute;
+  left: 13px;
+  top: 26px;
+  transform: translateY(-50%);
+  background: transparent;
+  padding: 0 4px;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: all 0.15s ease;
+  z-index: 2;
+  border-radius: 4px;
+  max-width: calc(100% - 52px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.float-field .pwd-wrap > .form-control:focus ~ label,
+.float-field .pwd-wrap > .form-control:not(:placeholder-shown) ~ label {
+  top: 0;
+  transform: translateY(-50%);
+  background: var(--bg-card, #fff);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+.float-field .pwd-wrap > .form-control:focus ~ label { color: var(--accent) !important; }
+body.dark-mode .float-field .pwd-wrap > .form-control:focus ~ label,
+body.dark-mode .float-field .pwd-wrap > .form-control:not(:placeholder-shown) ~ label {
+  background: var(--bg-card, #1c2128);
+}
+
+/* ── Divider line before the eye icon (full height of the input) ── */
+.pwd-toggle::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 38px;
+  background: var(--border-color, #d6dce4);
+}
+.pwd-wrap > input,
+.pwd-wrap > .form-control { padding-right: 50px !important; }
+
+/* ── Hide the page scrollbar (scrolling still works via wheel/touch/keys) ── */
+/* Chrome, Edge, Safari — covers light AND dark mode */
+::-webkit-scrollbar,
+body.dark-mode ::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+/* Firefox */
+html {
+  scrollbar-width: none;
+}
+/* IE / old Edge */
+body {
+  -ms-overflow-style: none;
+}
